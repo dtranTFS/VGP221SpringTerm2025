@@ -118,10 +118,23 @@ void AFPSCharacter::Fire()
 	FVector LaunchDirection = MuzzleRotation.Vector();
 	Projectile->FireInDirection(LaunchDirection);
 
-	Health -= 10;
+	Damage(10.0f);
+}
+
+void AFPSCharacter::Damage(float damageAmt)
+{
+	Health -= damageAmt;
 	float HealthPercent = Health / MaxHealth;
 
 	AFPSHud* fpsHUD = UGameplayStatics::GetPlayerController(this, 0)->GetHUD<AFPSHud>();
 	fpsHUD->GameWidgetContainer->SetHealthBar(HealthPercent);
+}
+
+float AFPSCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	Damage(FinalDamage);
+
+	return FinalDamage;
 }
 

@@ -58,6 +58,11 @@ public:
 	UFUNCTION()
 	void Fire();
 
+	UFUNCTION()
+	void Damage(float damageAmt);
+
 	float Health = 100;
 	float MaxHealth = 100;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 };
